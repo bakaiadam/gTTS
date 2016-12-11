@@ -21,7 +21,7 @@ text_group.add_argument('text', nargs='?', help="text to speak")
 text_group.add_argument('-f', '--file', help="file to speak")
 
 parser.add_argument("-o", '--destination', help="destination mp3 file", action='store')
-parser.add_argument('-l', '--lang', default='en', help="ISO 639-1/IETF language tag to speak in:\n" + languages())
+parser.add_argument('-l', '--lang', default='hu', help="ISO 639-1/IETF language tag to speak in:\n" + languages())
 parser.add_argument('--debug', default=False, action="store_true")
 
 args = parser.parse_args()
@@ -32,15 +32,18 @@ try:
     else:
         with codecs.open(args.file, "r", "utf-8") as f:
             text = f.read()
-
+    mplayercommand="mplayer "
     # TTSTF (Text to Speech to File)
-    tts = gTTS(text=text, lang=args.lang, debug=args.debug)
-
-    if args.destination:
-        tts.save(args.destination)
-    else:
-        tts.write_to_fp(os.fdopen(sys.stdout.fileno(), "wb"))
-
+    cachedir="cache/";
+    if (os.path.isdir(cachedir)==False ):
+      os.makedirs(cachedir)   
+    for i in text.split():
+      filepos=cachedir+i+args.lang+".mp3"
+      if (os.path.isfile(filepos)==False ):
+          tts = gTTS(text=i, lang=args.lang, debug=args.debug)
+          tts.save(filepos)
+      mplayercommand=mplayercommand+" "+filepos;
+    os.system(mplayercommand)
 except Exception as e:
     if args.destination:
         print(str(e))

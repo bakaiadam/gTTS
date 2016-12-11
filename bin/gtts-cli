@@ -1,4 +1,9 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+SCRIPT=`realpath $0`
+SCRIPTPATH=`dirname $SCRIPT`
+cd $SCRIPTPATH
+
 PYTHON=$(which python)
-exec $PYTHON $DIR/gtts-cli.py "$@" 
+$PYTHON $DIR/gtts-cli.py "$@" 
