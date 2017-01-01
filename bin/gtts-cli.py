@@ -32,18 +32,18 @@ try:
     else:
         with codecs.open(args.file, "r", "utf-8") as f:
             text = f.read()
-    mplayercommand="mplayer "
+    mplayercommand="sync;mplayer -volume 100 "
     # TTSTF (Text to Speech to File)
     cachedir="cache/";
     if (os.path.isdir(cachedir)==False ):
-      os.makedirs(cachedir)   
+      os.makedirs(cachedir)
     for i in text.split():
       filepos=cachedir+i+args.lang+".mp3"
       if (os.path.isfile(filepos)==False ):
           tts = gTTS(text=i, lang=args.lang, debug=args.debug)
           tts.save(filepos)
       mplayercommand=mplayercommand+" "+filepos;
-    os.system(mplayercommand)
+    os.system(mplayercommand+" > /dev/null 2>&1 ")
 except Exception as e:
     if args.destination:
         print(str(e))
