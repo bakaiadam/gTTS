@@ -32,7 +32,7 @@ try:
     else:
         with codecs.open(args.file, "r", "utf-8") as f:
             text = f.read()
-    mplayercommand="sync;mplayer -volume 100 "
+    mplayercommand="sync;mplayer  -slave -volume 100 "
     # TTSTF (Text to Speech to File)
     cachedir="cache/";
     if (os.path.isdir(cachedir)==False ):
