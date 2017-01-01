@@ -7,6 +7,8 @@ import sys
 import argparse
 import os
 import codecs
+#from subprocess import call
+import os, sys
 
 def languages():
     """Sorted pretty printed string of supported languages"""
@@ -32,7 +34,7 @@ try:
     else:
         with codecs.open(args.file, "r", "utf-8") as f:
             text = f.read()
-    mplayercommand="sync;mplayer  -slave -volume 100 "
+    mplayercommand="sync;mplayer -volume 100 "
     # TTSTF (Text to Speech to File)
     cachedir="cache/";
     if (os.path.isdir(cachedir)==False ):
@@ -43,7 +45,8 @@ try:
           tts = gTTS(text=i, lang=args.lang, debug=args.debug)
           tts.save(filepos)
       mplayercommand=mplayercommand+" "+filepos;
-    os.system(mplayercommand+" > /dev/null 2>&1 ")
+    #os.system(mplayercommand+" > /dev/null 2>&1 ")
+    os.popen(mplayercommand+" > /dev/null 2>&1 ","w")
 except Exception as e:
     if args.destination:
         print(str(e))
